@@ -30,7 +30,7 @@ for replication, random_state in enumerate(replications):
                 
                 # Load the data
                 try:
-                    data = np.load('streams/%s.npz' % filename)
+                    data = np.load('/Volumes/T7/ComplexityStreams/%s.npz' % filename)
                 except:
                     print('NO FILE YET')
                     exit()
