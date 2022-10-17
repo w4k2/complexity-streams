@@ -1,11 +1,13 @@
+import numpy as np
+
 # Random state for replications
 np.random.seed(1410)
 replications = np.random.randint(9999, size=10)
 
 # Parameters for all the streams
 static = {
-    'n_chunks': 100, 'chunk_size': 100,
-    #'n_chunks': 2000, 'chunk_size': 500,
+    #'n_chunks': 10, 'chunk_size': 10,
+    'n_chunks': 2000, 'chunk_size': 500,
     'n_drifts': 7,
     'n_redundant': 0, 'n_repeated': 0
 }

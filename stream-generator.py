@@ -1,7 +1,9 @@
 import numpy as np
 from strlearn.streams import StreamGenerator
-from time import time
 from config import *
+from tqdm import tqdm
+
+pbar = tqdm(total=len(replications)*len(dimensionalities)*len(drift_types)*len(number_of_clusters))
 
 for replication, random_state in enumerate(replications):
     for n_features in dimensionalities:
@@ -16,12 +18,10 @@ for replication, random_state in enumerate(replications):
                     'random_state': random_state
                 }
 
-                start = time()
                 X, y = StreamGenerator(**cc)._make_classification()
-                print(replication, n_features, drift_type, n_clusters_per_class, X.shape, y.shape, time()-start)
+                pbar.update()
                 
                 filename = '%s_f%i_c%i_r%i' % (drift_type, n_features, n_clusters_per_class, replication)
-                print(filename)
                 
                 np.savez('streams/%s' % filename, X=X, y=y)
                 
