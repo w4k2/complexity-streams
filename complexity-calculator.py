@@ -11,7 +11,7 @@ print(px.classification.__all__)
 print(measures, n_measures)
 
 # Establish base stream info
-n_chunks = 10 # static['n_chunks']
+n_chunks = static['n_chunks']
 chunk_size = static['chunk_size']
 
 # Do the main loop
