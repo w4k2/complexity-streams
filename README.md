@@ -14,6 +14,11 @@
 - balanced streams
 - streams imbalanced dynamically synchronously
 
+## Drifts
+- sudden
+- gradual
+- incremental
+
 ## Other configuration
 - 10 replications
 - fully informative
