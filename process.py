@@ -4,14 +4,13 @@ from scipy.signal import medfilt
 from scipy.ndimage import convolve1d
 from tqdm import tqdm
 from scipy import stats
-from torch import mean
 np.set_printoptions(
     precision=3,
     suppress=True
 )
 
 # Select the solution file
-filename = 'bal_sudden_f32_c2_r0'
+filename = 'bal_sudden_f8_c2_r0'
 print('# Processing the %s.' % filename)
 
 # Load complexities [chunk_id, measure_id], measures [measure_id] and time [chunk_id]
@@ -24,7 +23,7 @@ print('# %i chunks with %i measures' % (n_chunks, n_measures))
 
 # Define the processing parameters
 alpha = .05
-treshold = 2
+treshold = 1.5
 immobilizer = 3 # minimal 3
 norm_mean = np.zeros(n_measures)
 norm_std = np.ones(n_measures)
@@ -32,9 +31,9 @@ norm_std = np.ones(n_measures)
 # 
 normalizer = [[] for measure in measures] # norm source storage
 activator = [] # activity storage
-isno = [] # poprawa semantyki zmiennej!!!!
+pvalues = [] # poprawa semantyki zmiennej!!!!
 
-RS = []
+r_signal = [] # signal of integrated scales
 drifts = []
 
 """
@@ -43,7 +42,7 @@ Do the main processing loop
 for chunk_id, complexity_vector in enumerate(tqdm(complexities)):
     # Gather prior activity and prior normalty
     is_active = np.zeros(n_measures).astype(bool) if len(activator) == 0 else np.copy(activator[-1])
-    is_normal = np.ones(n_measures) if len(isno) == 0 else np.copy(isno[-1]) # poprawa semantyki zmiennej!!!!
+    is_normal = np.ones(n_measures) if len(pvalues) == 0 else np.copy(pvalues[-1]) # poprawa semantyki zmiennej!!!!
     
     # Gather the complexities to normalizer
     for measure_id, score in enumerate(complexity_vector):
@@ -63,7 +62,6 @@ for chunk_id, complexity_vector in enumerate(tqdm(complexities)):
 
             # Verify if just activated
             if p < alpha and (not is_active[measure_id]):
-                #print('JUST ACTIVATED %i [%s] at %i' % (measure_id, measures[measure_id], chunk_id))
                 norm_mean[measure_id] = np.mean(input_vector)
                 norm_std[measure_id] = np.std(input_vector)
 
@@ -80,11 +78,13 @@ for chunk_id, complexity_vector in enumerate(tqdm(complexities)):
         rescaled = np.abs((complexity_vector - norm_mean) / norm_std)[is_active]
         
         # Integrate and threshold it
-        r = np.median(rescaled)        
+        r = stats.hmean(rescaled)
         if r > treshold:
             is_drift = True
             
-        RS.append(r)
+        r_signal.append(r)
+    else:
+        r_signal.append(np.nan)
         
     # Drift reset
     if is_drift:
@@ -97,18 +97,18 @@ for chunk_id, complexity_vector in enumerate(tqdm(complexities)):
     # Store info
     drifts.append(is_drift)
     activator.append(is_active)
-    isno.append(is_normal)
+    pvalues.append(is_normal)
     
 """
 Presentation
 """
-isno = np.array(isno)
+pvalues = np.array(pvalues)
 activator = np.array(activator)
 
 bw = 15
 fig, ax = plt.subplots(2,2,figsize=(bw, bw))
 
-for m_idx, row in enumerate(isno.T):
+for m_idx, row in enumerate(pvalues.T):
     ax[0,0].plot(row, label=measures[m_idx])
 ax[0,0].legend()
 ax[0,0].set_title('P-values of measure normalty')
@@ -116,12 +116,15 @@ ax[0,0].set_title('P-values of measure normalty')
 ax[0,1].plot(drifts)
 ax[0,1].set_title('Detected drifts')
 
-ax[1,1].plot(RS)
+ax[1,1].plot(r_signal)
 ax[1,1].set_title('R-vector')
 
-for m_idx, row in enumerate(activator.T):
-    ax[1,0].plot(row, label=measures[m_idx])
-ax[1,0].legend()
+print(activator)
+ax[1,0].imshow(pvalues.T, aspect=n_chunks/n_measures, interpolation='none', vmin=alpha, vmax=.5)
+ax[1,0].set_yticks(np.linspace(0,n_measures-1,n_measures), measures)
+#for m_idx, row in enumerate(activator.T):
+#    ax[1,0].plot(row, label=measures[m_idx])
+#ax[1,0].legend()
 ax[1,0].set_title('Measure activity')
 
 plt.tight_layout()
