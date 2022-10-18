@@ -9,13 +9,23 @@ np.set_printoptions(
     suppress=True
 )
 
+def find_real_drift(chunks, drifts):
+    interval = round(chunks/drifts)
+    idx = [interval*(i+.5) for i in range(drifts)]
+    return np.array(idx).astype(int)
+
+
 # Select the solution file
-filename = 'bal_sudden_f8_c2_r0'
+filename = 'bal_gradual_f8_c2_r0'
 print('# Processing the %s.' % filename)
 
 # Load complexities [chunk_id, measure_id], measures [measure_id] and time [chunk_id]
+metric_filter = [0,1,5,7,10,12,15]
+
 data = np.load('complexities/%s.npz' % filename)
 complexities, measures, times = [data[k] for k in ['complexities', 'measures','times']]
+complexities = complexities[:,metric_filter]
+measures = measures[metric_filter]
 
 # Gather the basic info
 n_chunks, n_measures = complexities.shape
@@ -23,8 +33,8 @@ print('# %i chunks with %i measures' % (n_chunks, n_measures))
 
 # Define the processing parameters
 alpha = .05
-treshold = 1.5
-immobilizer = 3 # minimal 3
+treshold = 2.5
+immobilizer = 10 # minimal 3
 norm_mean = np.zeros(n_measures)
 norm_std = np.ones(n_measures)
 
@@ -102,6 +112,8 @@ for chunk_id, complexity_vector in enumerate(tqdm(complexities)):
 """
 Presentation
 """
+drfs = find_real_drift(n_chunks, 7)
+
 pvalues = np.array(pvalues)
 activator = np.array(activator)
 
@@ -114,14 +126,21 @@ ax[0,0].legend()
 ax[0,0].set_title('P-values of measure normalty')
 
 ax[0,1].plot(drifts)
+ax[0,1].set_xticks(drfs)
+ax[0,1].grid(ls=":")
 ax[0,1].set_title('Detected drifts')
 
-ax[1,1].plot(r_signal)
-ax[1,1].set_title('R-vector')
+# ax[1,1].plot(r_signal)
+# ax[1,1].set_title('R-vector')
+ax[1,1].imshow(complexities.T, aspect=n_chunks/n_measures, interpolation='none', cmap='bwr')
+ax[1,1].set_yticks(np.linspace(0,n_measures-1,n_measures))
+# ax[1,1].set_yticklabels(measures)
 
 print(activator)
 ax[1,0].imshow(pvalues.T, aspect=n_chunks/n_measures, interpolation='none', vmin=alpha, vmax=.5)
-ax[1,0].set_yticks(np.linspace(0,n_measures-1,n_measures), measures)
+ax[1,0].set_yticks(np.linspace(0,n_measures-1,n_measures))
+ax[1,0].set_yticklabels(measures)
+
 #for m_idx, row in enumerate(activator.T):
 #    ax[1,0].plot(row, label=measures[m_idx])
 #ax[1,0].legend()
