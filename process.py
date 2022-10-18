@@ -132,7 +132,11 @@ ax[0,1].set_title('Detected drifts')
 
 # ax[1,1].plot(r_signal)
 # ax[1,1].set_title('R-vector')
-ax[1,1].imshow(complexities.T, aspect=n_chunks/n_measures, interpolation='none', cmap='bwr')
+comp_image = np.copy(complexities).T
+comp_image -= np.mean(comp_image, axis=1)[:,None]
+comp_image /= np.std(comp_image, axis=1)[:,None]
+
+ax[1,1].imshow(comp_image, aspect=n_chunks/n_measures, interpolation='none', cmap='bwr')
 ax[1,1].set_yticks(np.linspace(0,n_measures-1,n_measures))
 # ax[1,1].set_yticklabels(measures)
 
