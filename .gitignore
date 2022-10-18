@@ -1,3 +1,6 @@
 __pycache__
 .DS_Store
 streams/*.npz
+foo.png
+bar.png
+baz.png
