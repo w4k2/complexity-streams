@@ -24,8 +24,8 @@ print('# %i chunks with %i measures' % (n_chunks, n_measures))
 
 # Define the processing parameters
 alpha = .05
-treshold = 3
-immobilizer = 3
+treshold = 2
+immobilizer = 3 # minimal 3
 norm_mean = np.zeros(n_measures)
 norm_std = np.ones(n_measures)
 
