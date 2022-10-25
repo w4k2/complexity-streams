@@ -26,9 +26,13 @@ def find_real_drift(chunks, drifts):
 """
 Configure processing parameters
 """
-_n_classifiers = np.linspace(1, 30, 10).astype(int)
+#_n_classifiers = np.linspace(1, 30, 10).astype(int)
+#_treshold = np.linspace(0.2, 5, 10)
+#_bagging_factor = np.linspace(0.1, 0.9, 5)
+
+_n_classifiers = np.linspace(1, 20, 5)
 _treshold = np.linspace(0.2, 5, 10)
-_bagging_factor = np.linspace(0.1, 0.9, 5)
+_bagging_factor = np.linspace(0.25, 0.75, 3)
 
 base_clf = OneClassSVM(kernel='rbf')
 for n_classifiers in _n_classifiers:
