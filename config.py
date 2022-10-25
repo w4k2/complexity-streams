@@ -14,7 +14,7 @@ static = {
 
 # Clusters and dimensionalities
 dimensionalities = [8,16,32]
-number_of_clusters = [2,3,4]
+number_of_clusters = [2]
 
 # Drift types
 drift_types = {
