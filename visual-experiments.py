@@ -1,10 +1,9 @@
 """
 Verified method
 """
-
-from cv2 import mean
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 from scipy.signal import medfilt
 from scipy.ndimage import convolve1d
 from tqdm import tqdm
@@ -16,6 +15,7 @@ np.set_printoptions(
     precision=3,
     suppress=True
 )
+np.random.seed(1410)
 
 def find_real_drift(chunks, drifts):
     interval = round(chunks/drifts)
@@ -35,8 +35,8 @@ bw = 9
 fig, ax = plt.subplots(len(drift_types), 2, figsize=(bw, bw*1.618), sharex=True)
 
 # Select the solution file
-dimensionality = dimensionalities[0]
-clusters = number_of_clusters[1]
+dimensionality = dimensionalities[2]
+clusters = number_of_clusters[2]
 for replication in range(10):
     # Storage for transformed metrics
     for drift_idx, drift_type in enumerate(drift_types):
@@ -103,6 +103,14 @@ for replication in range(10):
                 
             if len(ensemble) > n_classifiers:
                 del ensemble[0]
+                
+        print(dimensionality)
+        print(clusters)
+        print(replication)
+        print(drift_idx)
+        print('supports', np.array(supports).shape)
+        print('drifts', drifts)
+        exit()
             
         """
         Presentation
@@ -123,7 +131,7 @@ for replication in range(10):
             ax[drift_idx,0].set_xticks(drfs)
             ax[drift_idx,0].grid(ls=":")
 
-            ax[drift_idx,1].vlines(drfs, -1, 0, color='black', lw=1)
+            ax[drift_idx,1].vlines(drfs, -1, 0, color='black', lw=2)
             ax[drift_idx,1].grid(ls=":")
             ax[drift_idx,1].set_ylim(-1, 10)            
             ax[drift_idx,1].set_yticks(np.linspace(-.5,9.5,11),

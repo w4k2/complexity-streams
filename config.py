@@ -21,7 +21,8 @@ drift_types = {
     'bal_sudden': {'concept_sigmoid_spacing':999},
     'bal_gradual': {'concept_sigmoid_spacing':5},
     'bal_incremental': {'concept_sigmoid_spacing':5, 'incremental':True},
-    'imb_sudden': {'concept_sigmoid_spacing':999, 'weights': (static['n_drifts'], 10, .7)},
+#    'imb_sudden': {'concept_sigmoid_spacing':999, 'weights': (static['n_drifts'], 10, .7)},
+    'imb_very_sudden': {'concept_sigmoid_spacing':999, 'weights': (static['n_drifts'], 999, .7)},
     'imb_gradual': {'concept_sigmoid_spacing':5, 'weights': (static['n_drifts'], 5, .7)},
     'imb_incremental': {'concept_sigmoid_spacing':5, 'incremental':True, 'weights': (static['n_drifts'], 5, .7)},
 }
