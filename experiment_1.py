@@ -9,12 +9,18 @@ from detectors.HDDM_AA import HDDM_AA
 from detectors.HDDM_WW import HDDM_WW
 from detectors.CDDE import CDDE
 from detectors.meta import Meta
+import problexity as px
 
 # Establish base stream info
 n_chunks = static['n_chunks']
 chunk_size = static['chunk_size']
 n_clusters_per_class = number_of_clusters[0]
 n_detectors = 6
+
+measures = [getattr(px.classification, n) 
+            for n in px.classification.__all__]
+metric_filter = [0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+measures = measures[metric_filter]
 
 # Prepare storage for complexities and time
 detection_results = np.zeros((len(replications), len(dimensionalities), len(drift_types), n_detectors, n_chunks-1))
@@ -50,7 +56,7 @@ for replication, random_state in enumerate(replications):
                 Meta(base_clf=GaussianNB(), detector=ADWIN()),
                 Meta(base_clf=GaussianNB(), detector=HDDM_AA()),
                 Meta(base_clf=GaussianNB(), detector=HDDM_WW()),
-                Meta(base_clf=GaussianNB(), detector=CDDE())
+                Meta(base_clf=GaussianNB(), detector=CDDE(measures=measures))
             ]       
             
             # Iterate stream
