@@ -71,7 +71,7 @@ for replication, random_state in enumerate(replications):
                         detector.predict(_X)
                     except:
                         pass
-                    detector.partial_fit(_X, _y)
+                    detector.partial_fit(_X, _y, [0,1])
             
             for detector_id, detector in enumerate(detectors):
                 detection_results[replication, n_features_id, drift_type_id, detector_id] = detector.detector.drift
