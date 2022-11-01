@@ -75,8 +75,6 @@ for replication, random_state in enumerate(replications):
             
             for detector_id, detector in enumerate(detectors):
                 detection_results[replication, n_features_id, drift_type_id, detector_id] = detector.detector.drift
-                print(detector.detector.drift)
-                # exit()
             
             # Store results
             np.save('results/exp_comparison', detection_results)
