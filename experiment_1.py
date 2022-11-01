@@ -15,7 +15,7 @@ import problexity as px
 n_chunks = static['n_chunks']
 chunk_size = static['chunk_size']
 n_clusters_per_class = number_of_clusters[0]
-n_detectors = 6
+n_detectors = 5
 
 measures = np.array([getattr(px.classification, n) 
             for n in px.classification.__all__])
@@ -57,7 +57,7 @@ for replication, random_state in enumerate(replications):
                 Meta(base_clf=GaussianNB(), detector=ADWIN()),
                 Meta(base_clf=GaussianNB(), detector=HDDM_AA()),
                 Meta(base_clf=GaussianNB(), detector=HDDM_WW()),
-                Meta(base_clf=GaussianNB(), detector=CDDE(measures=measures))
+                # Meta(base_clf=GaussianNB(), detector=CDDE(measures=measures))
             ]       
             
             # Iterate stream
