@@ -2,6 +2,21 @@ from config import *
 import numpy as np
 import matplotlib.pyplot as plt
 from methods import find_real_drift
+from strlearn.streams import StreamGenerator
+
+# Gather stream dynamics info
+sc = { 'n_features':1, 'n_informative':1,'n_clusters_per_class':1 }
+
+cp = []
+for drift_type in drift_types:
+    print(drift_type)
+    s = StreamGenerator(**static, **drift_types[drift_type], **sc)
+    s._make_classification()
+    cp.append(s.concept_probabilities)
+
+cps = np.linspace(0, static['n_chunks'], 
+                  static['n_chunks']*static['chunk_size'])
+
 
 # Establish base stream info
 n_chunks = static['n_chunks']
@@ -28,12 +43,20 @@ for dt_id, dt in enumerate(drift_types):
                 start = d*10 + step*rep
                 stop = d*10 + step*(rep+1)
                 detections = np.argwhere(r[rep,d]==2).flatten()
-                aa.vlines(detections, start, stop, color='black')
+                aa.vlines(detections, start, stop, color='black' if d < 4 else 'red')
+                
+        aa.plot(cps, cp[dt_id]*5-7.5, c='red')
+        aa.grid(ls=":")
                     
         aa.set_title('%i dim | %s' % (dim, dt))
         aa.set_xticks(drifts, ['D%i' % i for i in range(7)])
-        aa.set_yticks([(10*i)+5 for i in range(len(detectors))], detectors)
+        aa.set_yticks([(10*i)-5 
+                       for i in range(len(detectors)+1)], 
+                      ['concept']+detectors)
+        aa.spines['top'].set_visible(False)
+        aa.spines['right'].set_visible(False)
+        aa.spines['bottom'].set_visible(False)
         
-plt.tight_layout()
-plt.savefig('figures/e1.png')
-plt.savefig('foo.png')
+    plt.tight_layout()
+    plt.savefig('figures/e1.png')
+    plt.savefig('foo.png')
