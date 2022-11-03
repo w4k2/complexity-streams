@@ -23,9 +23,11 @@ for dim_id, dim in enumerate(dimensionalities):
         r = detection_results[:,dim_id,dt_id]
         for d in range(len(detectors)):
             for rep in range(10):
-                detections = np.argwhere(r[rep,d]==2).flatten()
+                detections = np.argwhere(r[rep,d]==2).flatten()+1
                 errors[dim_id, dt_id, d, rep] = dderror(drifts, detections, n_chunks)
 
+                # if d == 4:
+                #     print(drifts, detections)
                 
 alpha = 0.05
 
@@ -64,7 +66,7 @@ for metric_id in range(3):
                                 if len(c) > 0 and len(c) < length-1 else ("all" if len(c) == length-1 else "---")
                                 for c in conclusions])
 
-        print(tabulate(t))
+        # print(tabulate(t))
         
     with open('tables/e1_m%i.txt' % metric_id, 'w') as f:
         f.write(tabulate(t, detectors, floatfmt="%.3f", tablefmt="latex"))
