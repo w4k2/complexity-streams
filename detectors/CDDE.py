@@ -36,7 +36,10 @@ class CDDE:
             self.ensemble.append(clf)
             
         for m_id, m in enumerate(self.measures):
-            self.complexities[m_id].append(m(X, y))
+            v = m(X, y)
+            if np.isnan(v):
+                v=1
+            self.complexities[m_id].append(v)
             
         # Gather and integrate decision
         if len(self.ensemble) > 0:

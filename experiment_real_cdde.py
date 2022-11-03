@@ -17,6 +17,9 @@ metric_mask = np.ones_like(measures).astype(bool)
 metric_mask[4] = False
 measures = measures[metric_mask]
 
+th = 0.75
+
+c=0
 for f in files:
     print(f)
     
@@ -32,17 +35,26 @@ for f in files:
     else:
         stream = sl.streams.ARFFParser('%s/%s' % (dir, f), chunk_size=chunk_size, n_chunks=chunks)
 
-
-    cdde = CDDE(measures= measures, thresolh=1)
+    if f.split('-')[0]=='poker':
+        cdde = CDDE(measures=measures, treshold=1.5)
+    else:
+        cdde = CDDE(measures=measures, treshold=th)
+        
     for chunk in range(chunks):
         try:
             X, y = stream.get_chunk()
-            print(np.unique(y))
         except:
             print(chunk, 'break')
             break
         
-        cdde.feed()
+        if len(np.unique(y))!=2:
+            print('continue')
+            continue
+        
+        cdde.feed(X, y)
+        
+    r = np.concatenate((np.array(cdde.drift).reshape(-1, 1), np.array(cdde.supports).reshape(-1, 1)), axis=1)
 
-    np.save('real_streams_res/cdde_%s' % f.split('.')[0], np.array(c))
-    # print(c)
+    print(r[:100])
+    np.save('real_streams_res/cdde_%s' % f.split('.')[0], r)
+    c+=1
