@@ -18,7 +18,8 @@ measures = measures[metric_mask]
 th = [0.75 for i in range(9)]
 th[-1]=1.5
 
-fig, ax = plt.subplots(9, figsize=(6,18))
+fig, ax = plt.subplots(3,3, figsize=(18,6))
+ax=ax.ravel()
 
 c=0
 for f in files:
@@ -35,7 +36,7 @@ for f in files:
     d = np.argwhere(res[:,0]==2).flatten()
     ax[c].vlines(d, 0.5, 2*t, color='black')
     ax[c].hlines(-t, 0, len(res[:,1]), color='gray', ls=':')
-    ax[c].set_yticks([0,-t])
+    ax[c].set_yticks([0,-t], [0,'-t'])
     ax[c].spines['top'].set_visible(False)
     ax[c].spines['right'].set_visible(False)
     
