@@ -36,7 +36,7 @@ for f in files:
     d = np.argwhere(res[:,0]==2).flatten()
     ax[c].vlines(d, 0.5, 2*t, color='black')
     ax[c].hlines(-t, 0, len(res[:,1]), color='gray', ls=':')
-    ax[c].set_yticks([0,-t], [0,'-t'])
+    ax[c].set_yticks([0,-t])
     ax[c].spines['top'].set_visible(False)
     ax[c].spines['right'].set_visible(False)
     
