@@ -59,12 +59,14 @@ fig, ax = plt.subplots(len(measures), 3, figsize=(10,10), dpi=200, sharex=True)
 
 for drift_type_id, drift_type in enumerate(stream_drfs):
     for measure_id, measure in enumerate(measures):
+        min_measure = np.min(m_all[:, measure_id])
+        max_measure = np.max(m_all[:, measure_id])
 
         axx = ax[measure_id, drift_type_id]
 
         axx.plot(m_all[drift_type_id, measure_id], c='black', alpha=0.3, linewidth=1)
         axx.plot(medfilt(m_all[drift_type_id, measure_id],7), c='black', linewidth=1)
-        axx.vlines(drf, np.min(m_all[drift_type_id, measure_id]), np.max(m_all[drift_type_id, measure_id]), color='r', ls=':')
+        axx.vlines(drf, min_measure, max_measure, color='r', ls=':')
         axx.grid(ls=":")
         
         if drift_type_id==0:
@@ -76,7 +78,15 @@ for drift_type_id, drift_type in enumerate(stream_drfs):
         
         axx.spines['top'].set_visible(False)
         axx.spines['right'].set_visible(False)
-        # axx.set_yticks([])
+        
+        axx.set_xlim(0,200)
+        axx.set_ylim(min_measure, max_measure)
+        ticks=np.round(np.linspace(min_measure, max_measure, 3),2)
+        
+        if drift_type_id==0:
+            axx.set_yticks(ticks)
+        else:
+            axx.set_yticks(ticks, ['' for v in ticks])
 
 
 plt.tight_layout()
