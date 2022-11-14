@@ -4,8 +4,14 @@ import os
 import problexity as px
 
 dir = 'real_streams_res/'
-for _,_,files in os.walk(dir):
-    pass
+files = [
+    'covtypeNorm-1-2vsAll-pruned.arff',
+    'electricity.csv',
+    'poker-lsn-1-2vsAll-pruned.arff',
+    'INSECTS-abrupt_imbalanced_norm.arff',
+    'INSECTS-gradual_imbalanced_norm.arff',
+    'INSECTS-incremental_imbalanced_norm.arff'
+]
 
 chunks=200
 
@@ -16,22 +22,20 @@ metric_mask[4] = False
 measures = measures[metric_mask]
 
 th = [0.75 for i in range(9)]
-th[-1]=1.5
+th[2]=1.5
 
-fig, ax = plt.subplots(3,3, figsize=(18,6))
+fig, ax = plt.subplots(3,2, figsize=(16,6))
 ax=ax.ravel()
 
 c=0
 for f in files:
-    if f.split('_')[0]!='cdde':
-        continue
-    
+   
     t=th[c]
 
-    res = np.load('%s/%s' % (dir, f))
+    res = np.load('%s/cdde_%s.npy' % (dir, f.split('.')[0]))
     print(res.shape)
     
-    ax[c].set_title(f[5:].split('.')[0])
+    ax[c].set_title(f.split('.')[0].split('-pruned')[0])
     ax[c].plot(res[:,1], c='tomato')
     d = np.argwhere(res[:,0]==2).flatten()
     ax[c].vlines(d, 0.5, 2*t, color='black')
@@ -45,4 +49,5 @@ for f in files:
 ax[-1].set_xlabel('chunk')    
 plt.tight_layout()
 plt.savefig('real_figures/detections.png')
+plt.savefig('foo.png')
     

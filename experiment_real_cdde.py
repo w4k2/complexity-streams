@@ -5,8 +5,14 @@ import numpy as np
 from detectors.CDDE import CDDE
 
 dir = 'real_streams/'
-for _,_,files in os.walk(dir):
-    pass
+files = [
+    'covtypeNorm-1-2vsAll-pruned.arff',
+    'electricity.csv',
+    'poker-lsn-1-2vsAll-pruned.arff',
+    'INSECTS-abrupt_imbalanced_norm.arff',
+    'INSECTS-gradual_imbalanced_norm.arff',
+    'INSECTS-incremental_imbalanced_norm.arff'
+]
 
 chunks = 2000
 chunk_size = 250
@@ -24,8 +30,6 @@ for f in files:
     print(f)
     
     if f.split('.')[0] == 'electricity':
-        if f.split('.')[1]=='npy':
-            continue
         data = np.loadtxt('%s/%s' % (dir, f), delimiter=',',skiprows=1, dtype=object)
         data[data=='UP'] = 1
         data[data=='DOWN'] = 0

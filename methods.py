@@ -82,3 +82,7 @@ def process(complexities,
     drifts_vec[drifts] = 2
             
     return supports, drifts, drifts_vec
+
+dets = np.array([20, 50, 100])
+drfs = np.array([10, 50, 90, 100])
+print(dderror(drfs,dets,120))

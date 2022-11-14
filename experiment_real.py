@@ -5,8 +5,14 @@ import numpy as np
 
 
 dir = 'real_streams/'
-for _,_,files in os.walk(dir):
-    pass
+files = [
+    'covtypeNorm-1-2vsAll-pruned.arff',
+    'electricity.csv',
+    'poker-lsn-1-2vsAll-pruned.arff',
+    'INSECTS-abrupt_imbalanced_norm.arff',
+    'INSECTS-gradual_imbalanced_norm.arff',
+    'INSECTS-incremental_imbalanced_norm.arff'
+]
 
 chunks = 2000
 chunk_size = 250
@@ -22,8 +28,6 @@ for f in files:
     c = [[] for i in range(len(measures))]
 
     if f.split('.')[0] == 'electricity':
-        if f.split('.')[1]=='npy':
-            continue
         data = np.loadtxt('%s/%s' % (dir, f), delimiter=',',skiprows=1, dtype=object)
         data[data=='UP'] = 1
         data[data=='DOWN'] = 0
@@ -37,7 +41,8 @@ for f in files:
     for chunk in range(chunks):
         try:
             X, y = stream.get_chunk()
-            print(np.unique(y))
+            print(X.shape)
+            break
         except:
             print(chunk, 'break')
             break
