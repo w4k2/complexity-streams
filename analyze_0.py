@@ -75,8 +75,13 @@ for a, b in zip([0,0,2], [1,2,1]):
                 
                 aa.set_yticks(list(range(len(tested_ranges[a]))), tested_ranges[a])
                 aa.set_xticks(list(range(len(tested_ranges[b]))), ['%.1f' % v for v in tested_ranges[b]])
-        
-        fig.suptitle('%s vs %s on %s' % (param_a, param_b, v_name))
+                
+                if op_idx_b==0:
+                    aa.set_ylabel(param_a)
+                if op_idx_a==5:
+                    aa.set_xlabel(param_b)
+                
+        # fig.suptitle('%s vs %s on %s' % (param_a, param_b, v_name))
         plt.tight_layout()
         plt.savefig('figures/e0_cmp_%i_%i_m%i.png' % (a, b, v_idx))
         plt.savefig('foo.png')
