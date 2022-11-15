@@ -13,6 +13,15 @@ files = [
     'INSECTS-incremental_imbalanced_norm.arff'
 ]
 
+files_labels = [
+    'covtype-1-2vsAll',
+    'electricity',
+    'poker-lsn-1-2vsAll',
+    'INSECTS-abrupt',
+    'INSECTS-gradual',
+    'INSECTS-incremental'
+]
+
 chunks=200
 
 measures = np.array([getattr(px.classification, n) 
@@ -28,14 +37,14 @@ fig, ax = plt.subplots(3,2, figsize=(16,6))
 ax=ax.ravel()
 
 c=0
-for f in files:
+for i, f in enumerate(files):
    
     t=th[c]
 
     res = np.load('%s/cdde_%s.npy' % (dir, f.split('.')[0]))
     print(res.shape)
     
-    ax[c].set_title(f.split('.')[0].split('-pruned')[0])
+    ax[c].set_title(files_labels[i])
     ax[c].plot(res[:,1], c='tomato')
     d = np.argwhere(res[:,0]==2).flatten()
     ax[c].vlines(d, 0.5, 2*t, color='black')
@@ -47,7 +56,12 @@ for f in files:
     c+=1
     
 ax[-1].set_xlabel('chunk')    
+ax[-2].set_xlabel('chunk')    
+ax[2].set_ylabel('decision function/ detections')    
+# ax[2].set_ylabel('decision function')    
+# ax[4].set_ylabel('decision function')    
 plt.tight_layout()
 plt.savefig('real_figures/detections.png')
+plt.savefig('real_figures/detections.eps')
 plt.savefig('foo.png')
     

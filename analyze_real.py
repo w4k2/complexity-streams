@@ -47,7 +47,12 @@ for i, f in enumerate(files):
         ax[i].spines['top'].set_visible(False)
         ax[i].spines['right'].set_visible(False)
         ax[i].grid(ls=":", axis='y')
+        
+        if i>13:
+            ax[i].set_xlabel('chunk')
+        
     plt.tight_layout()
     plt.savefig('foo.png')
     plt.savefig('real_figures/%s.png' % f.split('.')[0])
+    plt.savefig('real_figures/%s.eps' % f.split('.')[0])
     # exit()

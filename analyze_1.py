@@ -59,4 +59,5 @@ for dt_id, dt in enumerate(drift_types):
         
     plt.tight_layout()
     plt.savefig('figures/e1.png')
+    plt.savefig('figures/e1.eps')
     plt.savefig('foo.png')

@@ -53,7 +53,7 @@ for a, b in zip([0,0,2], [1,2,1]):
         maxpoint = np.max(proto_scores[:,:,:,:,v_idx])
         midpoint = np.mean(proto_scores[:,:,:,:,v_idx])
         
-        fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,12),
+        fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,10),
                             sharex=True, sharey=True)
         for op_idx_a, op_a in enumerate(overview_iterators[0]):
             for op_idx_b, op_b in enumerate(overview_iterators[1]):
@@ -84,6 +84,7 @@ for a, b in zip([0,0,2], [1,2,1]):
         # fig.suptitle('%s vs %s on %s' % (param_a, param_b, v_name))
         plt.tight_layout()
         plt.savefig('figures/e0_cmp_%i_%i_m%i.png' % (a, b, v_idx))
+        plt.savefig('figures/e0_cmp_%i_%i_m%i.eps' % (a, b, v_idx))
         plt.savefig('foo.png')
 
         

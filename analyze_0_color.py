@@ -44,7 +44,7 @@ for a, b in zip([0,0,2], [1,2,1]):
     print(proto_scores.shape)
     
     # Prepare plot
-    fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,12),
+    fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,10),
                         sharex=True, sharey=True)
     for op_idx_a, op_a in enumerate(overview_iterators[0]):
         for op_idx_b, op_b in enumerate(overview_iterators[1]):
@@ -77,4 +77,5 @@ for a, b in zip([0,0,2], [1,2,1]):
     # fig.suptitle('%s vs %s' % (param_a, param_b))
     plt.tight_layout()
     plt.savefig('figures/c_e0_cmp_%i_%i.png' % (a, b))
+    plt.savefig('figures/c_e0_cmp_%i_%i.eps' % (a, b))
     plt.savefig('foo.png')

@@ -80,6 +80,7 @@ for nt_idx, treshold in enumerate(_treshold):
         plt.suptitle('t=%.3f, bf=%.3f' % (treshold, bagging_factor))
         plt.tight_layout()
         filename = 'figures/e0_runs_%i_%i.png' % (nt_idx, nb_idx)   
+        filename = 'figures/e0_runs_%i_%i.eps' % (nt_idx, nb_idx)   
         print(filename)
         plt.savefig('foo.png')   
         plt.savefig(filename)
