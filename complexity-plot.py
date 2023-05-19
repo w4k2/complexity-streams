@@ -91,4 +91,5 @@ for drift_type_id, drift_type in enumerate(stream_drfs):
 
 plt.tight_layout()
 plt.savefig('figures/complexity_plot.png')
+plt.savefig('figures/complexity_plot.eps')
 plt.savefig('foo.png')
