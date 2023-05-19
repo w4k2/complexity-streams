@@ -18,7 +18,8 @@ stream_static = {
         'n_features': 15,
         'n_informative': 15,
         'n_redundant': 0,
-        'recurring': False
+        'recurring': False,
+        'random_state': 76099,
     }
 
 drf = find_real_drift(stream_static['n_chunks'],stream_static['n_drifts'])
@@ -64,7 +65,7 @@ for drift_type_id, drift_type in enumerate(stream_drfs):
 
         axx = ax[measure_id, drift_type_id]
 
-        axx.plot(m_all[drift_type_id, measure_id], c='black', alpha=0.3, linewidth=1)
+        axx.plot(m_all[drift_type_id, measure_id], c='gray', linewidth=1)
         axx.plot(medfilt(m_all[drift_type_id, measure_id],7), c='black', linewidth=1)
         axx.vlines(drf, min_measure, max_measure, color='r', ls=':')
         axx.grid(ls=":")
