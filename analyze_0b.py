@@ -1,15 +1,7 @@
-from cv2 import threshold
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
-from scipy.signal import medfilt
-from scipy.ndimage import convolve1d
-from sklearn import config_context
-from scipy import stats
-from sklearn.svm import OneClassSVM
 from config import *
-from methods import process, dderror, find_real_drift
-from tqdm import tqdm
+from methods import find_real_drift
 np.set_printoptions(
     precision=3,
     suppress=True
@@ -52,7 +44,7 @@ for nt_idx, treshold in enumerate(_treshold):
 
         #print('# On config\n  %s' % config_filename)
         
-        fig, ax = plt.subplots(len(drift_types), len(dimensionalities), figsize=(10,10), sharex=True, sharey=True)
+        fig, ax = plt.subplots(len(drift_types), len(dimensionalities), figsize=(10,10), sharex=True, sharey=True, dpi=200)
         
         for dimensionality_idx, dimensionality in enumerate(dimensionalities):
             for replication in range(10):
@@ -80,7 +72,7 @@ for nt_idx, treshold in enumerate(_treshold):
         plt.suptitle('t=%.3f, bf=%.3f' % (treshold, bagging_factor))
         plt.tight_layout()
         filename = 'figures/e0_runs_%i_%i.png' % (nt_idx, nb_idx)   
-        filename = 'figures/e0_runs_%i_%i.eps' % (nt_idx, nb_idx)   
+        # filename = 'figures/e0_runs_%i_%i.eps' % (nt_idx, nb_idx)   
         print(filename)
         plt.savefig('foo.png')   
         plt.savefig(filename)
