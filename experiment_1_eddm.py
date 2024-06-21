@@ -4,7 +4,6 @@ from tqdm import tqdm
 import numpy as np
 from detectors.EDDM import EDDM
 from detectors.meta import Meta
-import problexity as px
 from config import *
 from strlearn.streams import StreamGenerator
 
@@ -13,12 +12,6 @@ n_chunks = static['n_chunks']
 chunk_size = static['chunk_size']
 n_clusters_per_class = number_of_clusters[0]
 n_detectors = 1
-
-measures = np.array([getattr(px.classification, n) 
-            for n in px.classification.__all__])
-metric_mask = np.ones_like(measures).astype(bool)
-metric_mask[4] = False
-measures = measures[metric_mask]
 
 # Prepare storage for complexities and time
 detection_results = np.zeros((len(replications), len(dimensionalities), len(drift_types), n_detectors, n_chunks-1))
