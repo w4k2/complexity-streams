@@ -13,6 +13,18 @@ print(drifts_cdde[0,0,0,:500])
 
 # replications, dimensionalities, drift_types, n_detectors, n_chunks-1
 drifts_others = np.load('results/exp_comparison.npy')
+drifts_eddm = np.load('results/exp_comparison_eddm.npy')
+# print(np.sum(drifts_eddm, axis=-1))
+# exit()
+drifts_others = np.concatenate((drifts_others,drifts_eddm), axis=3)
+
+# Make EDDM 2nd
+temp = np.copy(drifts_others[:,:,:,4])
+drifts_others[:,:,:,4] = np.copy(drifts_others[:,:,:,3])
+drifts_others[:,:,:,3] = np.copy(drifts_others[:,:,:,2])
+drifts_others[:,:,:,2] = np.copy(drifts_others[:,:,:,1])
+drifts_others[:,:,:,1] = temp
+
 print(drifts_others.shape)
 
 drifts_all = np.concatenate((drifts_others, drifts_cdde[:,:,:,np.newaxis]), axis=3)
