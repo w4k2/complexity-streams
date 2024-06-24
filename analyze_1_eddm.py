@@ -31,7 +31,7 @@ print(detection_results.shape)
 print(np.sum(detection_results[:,:,0,1], axis=-1))
 #(replications, dimensionalities, drift_types, n_detectors, n_chunks-1)
 
-fig, ax = plt.subplots(len(drift_types), len(dimensionalities), figsize=(12,12), sharex=True, sharey=True)
+fig, ax = plt.subplots(len(drift_types), len(dimensionalities), figsize=(12,14), sharex=True, sharey=True)
 
 for dt_id, dt in enumerate(drift_types):
     for dim_id, dim in enumerate(dimensionalities):
@@ -49,8 +49,11 @@ for dt_id, dt in enumerate(drift_types):
                 
         aa.plot(cps, cp[dt_id]*5-7.5, c='red')
         aa.grid(ls=":")
-                    
-        aa.set_title('%i dim | %s' % (dim, dt))
+    
+        if dt_id==0:          
+            aa.set_title('%i dim' % (dim))
+        if dim_id==0:
+            aa.set_ylabel('%s' % (dt), fontsize=12)
         aa.set_xticks(drifts, ['D%i' % i for i in range(7)])
         aa.set_yticks([(10*i)-5 
                        for i in range(len(detectors)+1)], 
