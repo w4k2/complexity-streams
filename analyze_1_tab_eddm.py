@@ -25,6 +25,7 @@ for dim_id, dim in enumerate(dimensionalities):
             for rep in range(10):
                 detections = np.argwhere(r[rep,d]==2).flatten()+1
                 errors[dim_id, dt_id, d, rep] = dderror(drifts, detections, n_chunks)
+                print(errors[dim_id, dt_id, d, rep])
 
                 # if d == 4:
                 #     print(drifts, detections)
