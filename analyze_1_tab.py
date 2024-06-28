@@ -9,7 +9,7 @@ from scipy.stats import ttest_rel
 n_chunks = static['n_chunks']
 chunk_size = static['chunk_size']
 n_clusters_per_class = number_of_clusters[0]
-detectors = ['DDM', 'ADWIN', 'HDDM_A', 'HDDM_W', 'CDDE']
+detectors = ['DDM', 'ADWIN', 'HDDM_A', 'HDDM_W', 'C2D']
 drifts = find_real_drift(2000, 7)
 
 # Load results

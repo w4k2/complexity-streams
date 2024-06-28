@@ -51,7 +51,7 @@ for dt_id, dt in enumerate(drift_types):
         aa.grid(ls=":")
     
         if dt_id==0:          
-            aa.set_title('%i dim' % (dim))
+            aa.set_title('%i features' % (dim))
         if dim_id==0:
             aa.set_ylabel('%s' % (dt), fontsize=12)
         aa.set_xticks(drifts, ['D%i' % i for i in range(7)])
