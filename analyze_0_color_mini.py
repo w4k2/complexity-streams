@@ -72,7 +72,7 @@ ax[-1].imshow(image)
 
 for j, row in enumerate(image):
     for k, v in enumerate(row):
-        ax[-1].text(k,j,'%.1f' % np.mean(v), 
+        ax[-1].text(k,j,'%.2f' % np.mean(v), 
                     ha='center', va='center',
                     c='white' if np.mean(v) < 0.5 else 'black')
                 
@@ -91,3 +91,5 @@ ax[3].set_title('Combined and normalized criteria')
 # fig.suptitle('%s vs %s' % (param_a, param_b))
 plt.tight_layout()
 plt.savefig('foo.png')
+plt.savefig('figures/c2d_e0_mini.png')
+plt.savefig('figures/c2d_e0_mini.eps')

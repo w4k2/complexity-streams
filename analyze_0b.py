@@ -63,16 +63,21 @@ for nt_idx, treshold in enumerate(_treshold):
                     aa.vlines(detections, start, stop, color='black')
                     #print(detections)
                     
-                    aa.set_yticks([-treshold, 0, treshold], ['t', '0', 't'])
+                    aa.set_yticks([-treshold, 0, treshold], ['t', '0', '-t'])
                     aa.grid(ls=":")
                     aa.spines['top'].set_visible(False)
                     aa.spines['right'].set_visible(False)
-                    aa.set_title('%s | %id' % (drift_type, dimensionality))
+                    if drift_idx==0:
+                        aa.set_title('%i features' % (dimensionality))
+                    if dimensionality_idx==0:
+                        aa.set_ylabel('%s' % (drift_type))
+
+                    # aa.set_title('%s | %id' % (drift_type, dimensionality))
                  
-        plt.suptitle('t=%.3f, bf=%.3f' % (treshold, bagging_factor))
+        plt.suptitle('$th=%.1f$ | $bf=%.2f$' % (treshold, bagging_factor))
         plt.tight_layout()
         filename = 'figures/e0_runs_%i_%i.png' % (nt_idx, nb_idx)   
-        # filename = 'figures/e0_runs_%i_%i.eps' % (nt_idx, nb_idx)   
+        filename = 'figures/e0_runs_%i_%i.eps' % (nt_idx, nb_idx)   
         print(filename)
         plt.savefig('foo.png')   
         plt.savefig(filename)

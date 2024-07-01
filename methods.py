@@ -24,8 +24,8 @@ def dderror(drifts, detections, n_chunks):
     cmetric = np.abs((n_drifts/n_detections)-1)
 
     return d1metric, d2metric, cmetric
-    # d1 - detection from nearest drift
-    # d2 - drift from nearest detection
+    # d1 - each detection from nearest drift
+    # d2 - each drift from nearest detection
 
 def process(complexities,
             n_classifiers,
@@ -83,6 +83,7 @@ def process(complexities,
             
     return supports, drifts, drifts_vec
 
-dets = np.array([20, 50, 100])
-drfs = np.array([10, 50, 90, 100])
-print(dderror(drfs,dets,120))
+# dets = np.array([20, 50, 100])
+# drfs = np.array([10, 50, 90, 100])
+# print(dderror(drfs,dets,120))
+

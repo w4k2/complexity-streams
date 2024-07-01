@@ -44,14 +44,17 @@ for a, b in zip([0,0,2], [1,2,1]):
     print(proto_scores.shape)
     
     # Prepare plot
-    fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,10),
+    fig, ax = plt.subplots(*[len(it) for it in overview_iterators], figsize=(12,8),
                         sharex=True, sharey=True)
     for op_idx_a, op_a in enumerate(overview_iterators[0]):
         for op_idx_b, op_b in enumerate(overview_iterators[1]):
             print(op_a, op_b)
             aa = ax[op_idx_a, op_idx_b]
-            aa.set_title('%i dim | %s' % (op_b, op_a))
-            
+            if op_idx_a==0:
+                aa.set_title('%i features' % (op_b))
+            if op_idx_b==0:
+                aa.set_ylabel('%s \n %s' % (op_a, '$bf$'))
+
             image = proto_scores[:,:,op_idx_b,op_idx_a]
             if a > b:
                 image = image.swapaxes(0,1)
@@ -69,10 +72,10 @@ for a, b in zip([0,0,2], [1,2,1]):
             aa.set_yticks(list(range(len(tested_ranges[a]))), tested_ranges[a])
             aa.set_xticks(list(range(len(tested_ranges[b]))), ['%.1f' % v for v in tested_ranges[b]])
             
-            if op_idx_b==0:
-                aa.set_ylabel(param_a)
+            # if op_idx_b==0:
+                # aa.set_ylabel(param_a)
             if op_idx_a==5:
-                aa.set_xlabel(param_b)
+                aa.set_xlabel('$th$')
     
     # fig.suptitle('%s vs %s' % (param_a, param_b))
     plt.tight_layout()
